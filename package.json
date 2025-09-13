@@ -1,0 +1,75 @@
+{
+  "name": "simply-outlook-mcp",
+  "displayName": "Simply Outlook MCP Server",
+  "description": "A Model Context Protocol (MCP) server that enables AI assistants to interact with Microsoft Outlook calendars and emails through the Microsoft Graph API.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "outlook",
+    "microsoft-graph",
+    "email",
+    "calendar",
+    "ai",
+    "assistant"
+  ],
+  "license": "MIT",
+  "author": "hmmroger",
+  "homepage": "https://github.com/hmmroger/simply-outlook-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hmmroger/simply-outlook-mcp.git"
+  },
+  "version": "0.0.1",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "!dist/**/*.map"
+  ],
+  "type": "module",
+  "bin": {
+    "simply-outlook-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "prebuild": "node generate-version.mjs",
+    "build": "npm run check-types && npm run lint && npm run build:tsc",
+    "build:tsc": "tsc --project tsconfig.json",
+    "watch": "npm-run-all -p watch:*",
+    "watch:tsc": "tsc --watch --project tsconfig.json",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "server": "node ./dist/index.js",
+    "inspect": "npx @modelcontextprotocol/inspector node ./dist/index.js",
+    "prepublishOnly": "npm run clean && npm run build",
+    "clean": "node -e \"import('fs').then(fs => fs.rmSync('dist', { recursive: true, force: true }))\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@microsoft/microsoft-graph-types": "^2.40.0",
+    "@types/jsdom": "^21.1.7",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.19.10",
+    "@types/yargs": "^17.0.33",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.33.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.39.0"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.12.0",
+    "@azure/identity-cache-persistence": "^1.2.0",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "dompurify": "^3.2.6",
+    "dotenv": "^17.2.2",
+    "es-toolkit": "^1.39.10",
+    "jsdom": "^26.1.0",
+    "marked": "^16.2.1",
+    "node-html-markdown": "^1.3.0",
+    "yargs": "^18.0.0",
+    "zod": "^3.25.76"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
