@@ -13,10 +13,6 @@ export const registerCreateCalendarEventWithInviteTool = async (server: McpServe
     "Create a calendar event in Outlook and send invitations to specified attendees. Use this tool when you need to invite other people to the event.",
     {
       subject: z.string().describe("The title/subject of the calendar event"),
-      content: z
-        .string()
-        .optional()
-        .describe("Optional description or body content for the event. Must be in markdown or plain text format."),
       startDateTime: z
         .string()
         .describe(
@@ -28,6 +24,10 @@ export const registerCreateCalendarEventWithInviteTool = async (server: McpServe
         .describe(
           `The event end date and time in ISO format using local time zone. Optional - if not provided, the event will last ${DEFAULT_EVENT_DURATION_MINUTES} minutes. Format: 'YYYY-MM-DDTHH:mm:ss' (e.g., '2025-12-25T15:00:00')`
         ),
+      content: z
+        .string()
+        .optional()
+        .describe("Optional description or body content for the event. Must be in markdown or plain text format."),
       location: z
         .string()
         .optional()
@@ -66,7 +66,11 @@ export const registerCreateCalendarEventWithInviteTool = async (server: McpServe
           location,
           isMeeting
         );
-        return textToolResult([`Event created successfully:`, JSON.stringify(toCalendarEventResult(eventData))]);
+        return textToolResult([
+          `Do not show the event ID to the user.`,
+          `Event created successfully:`,
+          JSON.stringify(toCalendarEventResult(eventData)),
+        ]);
       } catch (error) {
         return getErrorToolResult(error, "Failed to create calendar event.");
       }

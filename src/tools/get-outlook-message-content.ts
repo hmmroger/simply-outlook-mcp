@@ -10,7 +10,11 @@ export const registerGetOutlookMessageContentTool = async (server: McpServer, gr
     GET_OUTLOOK_MESSAGE_CONTENT_TOOL_NAME,
     "Retrieve the full content of a specific Outlook mail message by its ID.",
     {
-      id: z.string().describe("The unique identifier of the mail message to retrieve the content for."),
+      id: z
+        .string()
+        .describe(
+          "The unique identifier of the mail message to retrieve the content for. This is a base64-encoded string that uniquely identifies the message in the user's mailbox. Preserve the exact ID format including any trailing '=' padding characters."
+        ),
     },
     async ({ id }) => {
       try {

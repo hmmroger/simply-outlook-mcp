@@ -56,7 +56,8 @@ export const registerGetOutlookMessagesTool = async (server: McpServer, graphSer
         }
 
         return textToolResult([
-          `Outlook messages since ${utcDateTimeToLocal(receivedStartDateTimeUtc)}:`,
+          `Do not show the message ID to the user.`,
+          `There are ${messagesData.length} Outlook messages since ${utcDateTimeToLocal(receivedStartDateTimeUtc)}:`,
           JSON.stringify(messagesData.map((message) => toMailMessageResult(message))),
         ]);
       } catch (error) {

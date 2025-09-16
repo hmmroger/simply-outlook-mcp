@@ -72,7 +72,11 @@ export const registerGetCalendarEventsTool = async (server: McpServer, graphServ
           return textToolResult(["No calendar events found."]);
         }
 
-        return textToolResult(["Calendar events found:", JSON.stringify(eventsData.map((event) => toCalendarEventResult(event)))]);
+        return textToolResult([
+          `Do not show the event ID to the user.`,
+          `There are ${eventsData.length} calendar events found:`,
+          JSON.stringify(eventsData.map((event) => toCalendarEventResult(event))),
+        ]);
       } catch (error) {
         return getErrorToolResult(error, "Failed to get calendar events.");
       }

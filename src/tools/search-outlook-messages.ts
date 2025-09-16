@@ -37,7 +37,8 @@ export const registerSearchOutlookMessagesTool = async (server: McpServer, graph
         }
 
         return textToolResult([
-          `Outlook messages matching keywords [${keywords}]:`,
+          `Do not show the message ID to the user.`,
+          `There are ${messagesData.length} Outlook messages matching keywords [${keywords}]:`,
           JSON.stringify(messagesData.map((message) => toMailMessageResult(message))),
         ]);
       } catch (error) {

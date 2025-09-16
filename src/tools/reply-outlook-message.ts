@@ -10,7 +10,11 @@ export const registerReplyOutlookMessageTool = async (server: McpServer, graphSe
     REPLY_OUTLOOK_MESSAGE_TOOL_NAME,
     "Reply to an existing Outlook mail message with new content.",
     {
-      messageId: z.string().describe("The unique identifier of the mail message to reply to."),
+      messageId: z
+        .string()
+        .describe(
+          "The unique identifier of the mail message to reply to. This is a base64-encoded string that uniquely identifies the message in the user's mailbox. Preserve the exact ID format including any trailing '=' padding characters."
+        ),
       content: z
         .string()
         .describe("The reply content/body of the email message. Supports Markdown formatting which will be converted to HTML."),
@@ -27,7 +31,10 @@ export const registerReplyOutlookMessageTool = async (server: McpServer, graphSe
 
         await graphService.replyOutlookMessage(messageId, content);
 
-        return textToolResult([`Successfully sent reply to Outlook message with ID: ${messageId}`]);
+        return textToolResult([
+          `Do not show the message ID to the user.`,
+          `Successfully sent reply to Outlook message with ID: ${messageId}`,
+        ]);
       } catch (error) {
         return getErrorToolResult(error, "Failed to reply to Outlook message.");
       }

@@ -10,7 +10,11 @@ export const registerUpdateCalendarEventTool = async (server: McpServer, graphSe
     UPDATE_CALENDAR_EVENT_TOOL_NAME,
     "Update an existing calendar event in Outlook. You can modify the subject, content, start/end times, or location. At least one field must be provided to update.",
     {
-      id: z.string().describe("The unique identifier of the calendar event to update"),
+      id: z
+        .string()
+        .describe(
+          "This is a base64-encoded string that uniquely identifies the calendar event to update. Preserve the exact ID format including any trailing '=' padding characters."
+        ),
       subject: z.string().optional().describe("Optional new title/subject for the calendar event"),
       content: z
         .string()
@@ -42,7 +46,11 @@ export const registerUpdateCalendarEventTool = async (server: McpServer, graphSe
 
         const eventData = await graphService.updateCalendarEvent(id, content, subject, startDateTimeUtc, endDateTimeUtc, location);
 
-        return textToolResult([`Calendar event updated successfully:`, JSON.stringify(toCalendarEventResult(eventData))]);
+        return textToolResult([
+          `Do not show the event ID to the user.`,
+          `Calendar event updated successfully:`,
+          JSON.stringify(toCalendarEventResult(eventData)),
+        ]);
       } catch (error) {
         return getErrorToolResult(error, "Failed to update calendar event.");
       }

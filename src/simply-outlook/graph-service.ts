@@ -260,8 +260,9 @@ export class GraphService {
     const filterStr = filters.join(" and ");
     let query = this.graphClient.api("/me/messages").select(MAIL_PREVIEW_MESSAGE_PROPS).top(limit);
     // Graph search endpoint does not support MSA so use $search with limited functionalities
-    query = searchQuery
-      ? query.search(searchQuery)
+    const encodedQuery = searchQuery && encodeURIComponent(searchQuery);
+    query = encodedQuery
+      ? query.search(`"subject:${encodedQuery} OR body:${encodedQuery} OR from:${encodedQuery}"`)
       : query
           .filter(filterStr)
           .skip(skip || 0)
