@@ -16,10 +16,6 @@ export const registerUpdateCalendarEventTool = async (server: McpServer, graphSe
           "This is a base64-encoded string that uniquely identifies the calendar event to update. Preserve the exact ID format including any trailing '=' padding characters."
         ),
       subject: z.string().optional().describe("Optional new title/subject for the calendar event"),
-      content: z
-        .string()
-        .optional()
-        .describe("Optional new description or body content for the event. Must be in markdown or plain text format."),
       startDateTime: z
         .string()
         .optional()
@@ -38,6 +34,10 @@ export const registerUpdateCalendarEventTool = async (server: McpServer, graphSe
         .describe(
           "Optional new location or venue for the event (e.g., 'Conference Room A', 'Airport', 'Central Park'). Use empty string to remove location."
         ),
+      content: z
+        .string()
+        .optional()
+        .describe("Optional new description or body content for the event. Must be in markdown or plain text format."),
     },
     async ({ id, subject, content, startDateTime, endDateTime, location }) => {
       try {

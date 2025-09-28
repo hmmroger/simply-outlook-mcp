@@ -12,6 +12,12 @@ export const registerCreateCalendarEventWithInviteTool = async (server: McpServe
     CREATE_CALENDAR_EVENT_WITH_INVITE_TOOL_NAME,
     "Create a calendar event in Outlook and send invitations to specified attendees. Use this tool when you need to invite other people to the event.",
     {
+      userEmails: z
+        .string()
+        .array()
+        .describe(
+          "Array of email addresses to invite as attendees. Each attendee will receive a calendar invitation. Use empty array [] if no attendees should be invited."
+        ),
       subject: z.string().describe("The title/subject of the calendar event"),
       startDateTime: z
         .string()
@@ -24,20 +30,14 @@ export const registerCreateCalendarEventWithInviteTool = async (server: McpServe
         .describe(
           `The event end date and time in ISO format using local time zone. Optional - if not provided, the event will last ${DEFAULT_EVENT_DURATION_MINUTES} minutes. Format: 'YYYY-MM-DDTHH:mm:ss' (e.g., '2025-12-25T15:00:00')`
         ),
-      content: z
-        .string()
-        .optional()
-        .describe("Optional description or body content for the event. Must be in markdown or plain text format."),
       location: z
         .string()
         .optional()
         .describe("Optional location or venue for the event (e.g., 'Conference Room A', 'Zoom Meeting', 'Central Park')"),
-      userEmails: z
+      content: z
         .string()
-        .array()
-        .describe(
-          "Array of email addresses to invite as attendees. Each attendee will receive a calendar invitation. Use empty array [] if no attendees should be invited."
-        ),
+        .optional()
+        .describe("Optional description or body content for the event. Must be in markdown or plain text format."),
       isMeeting: z
         .boolean()
         .optional()

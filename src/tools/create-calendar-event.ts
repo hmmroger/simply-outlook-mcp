@@ -24,14 +24,14 @@ export const registerCreateCalendarEventTool = async (server: McpServer, graphSe
         .describe(
           `The event end date and time in ISO format using local time zone. Optional - if not provided, the event will last ${DEFAULT_EVENT_DURATION_MINUTES} minutes. Format: 'YYYY-MM-DDTHH:mm:ss' (e.g., '2025-12-25T15:00:00')`
         ),
-      content: z
-        .string()
-        .optional()
-        .describe("Optional description or body content for the event. Must be in markdown or plain text format."),
       location: z
         .string()
         .optional()
         .describe("Optional location or venue for the event (e.g., 'Conference Room A', 'Airport', 'Central Park')"),
+      content: z
+        .string()
+        .optional()
+        .describe("Optional description or body content for the event. Must be in markdown or plain text format."),
     },
     async ({ subject, content, startDateTime, endDateTime, location }) => {
       try {
